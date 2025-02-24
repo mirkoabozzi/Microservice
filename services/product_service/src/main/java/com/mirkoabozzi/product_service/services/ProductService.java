@@ -16,9 +16,7 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     public Product saveProduct(ProductRequestDTO body) {
-
         Product newProduct = new Product(body.name(), body.description(), body.quantityAvailable());
-
         return this.productRepository.save(newProduct);
     }
 
@@ -34,5 +32,9 @@ public class ProductService {
     public void deleteProduct(UUID id) {
         Product productFound = this.findById(id);
         this.productRepository.delete(productFound);
+    }
+
+    public boolean checkAvailability(UUID productId, int quantity) {
+        return this.productRepository.existsByIdAndQuantityAvailableIsGreaterThanEqual(productId, quantity);
     }
 }

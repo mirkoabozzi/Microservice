@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/products")
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
@@ -36,4 +36,8 @@ public class ProductController {
         this.productService.deleteProduct(id);
     }
 
+    @GetMapping("/check")
+    public boolean checkAvailability(@RequestParam UUID productId, @RequestParam int quantity) {
+        return this.productService.checkAvailability(productId, quantity);
+    }
 }

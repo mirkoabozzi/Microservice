@@ -1,4 +1,4 @@
-package com.mirkoabozzi.product_service.entities;
+package com.mirkoabozzi.order_service.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,22 +12,20 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Entity
-@Table(name = "products")
+@Table(name = "orders")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Product {
+public class Order {
     @Id
     @GeneratedValue
     @Setter(AccessLevel.NONE)
     private UUID id;
-    private String name;
-    private String description;
-    private int quantityAvailable;
+    private UUID productId;
+    private int quantity;
 
-    public Product(String name, String description, int quantityAvailable) {
-        this.name = name;
-        this.description = description;
-        this.quantityAvailable = quantityAvailable;
+    public Order(UUID productId, int quantity) {
+        this.productId = productId;
+        this.quantity = quantity;
     }
 }
