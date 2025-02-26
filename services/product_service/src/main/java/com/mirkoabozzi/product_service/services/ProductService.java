@@ -37,4 +37,10 @@ public class ProductService {
     public boolean checkAvailability(UUID productId, int quantity) {
         return this.productRepository.existsByIdAndQuantityAvailableIsGreaterThanEqual(productId, quantity);
     }
+
+    public void decreaseProductQuantity(UUID productId, int quantity) {
+        Product productFound = this.findById(productId);
+        productFound.setQuantityAvailable(productFound.getQuantityAvailable() - quantity);
+        this.productRepository.save(productFound);
+    }
 }

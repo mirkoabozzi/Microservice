@@ -40,4 +40,10 @@ public class ProductController {
     public boolean checkAvailability(@RequestParam UUID productId, @RequestParam int quantity) {
         return this.productService.checkAvailability(productId, quantity);
     }
+
+    @PostMapping("/decrease-quantity")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void decreaseProductQuantity(@RequestParam UUID productId, @RequestParam int quantity) {
+        this.productService.decreaseProductQuantity(productId, quantity);
+    }
 }

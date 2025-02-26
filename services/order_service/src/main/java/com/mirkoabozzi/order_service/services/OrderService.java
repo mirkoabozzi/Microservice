@@ -22,6 +22,7 @@ public class OrderService {
         Order newOrder = new Order(body.productId(), body.quantity());
 
         if (this.productClient.checkAvailability(body.productId(), body.quantity())) {
+            this.productClient.decreaseProductQuantity(body.productId(), body.quantity());
             this.orderRepository.save(newOrder);
         } else {
             throw new NotFoundExceptions("Product unavailable");
