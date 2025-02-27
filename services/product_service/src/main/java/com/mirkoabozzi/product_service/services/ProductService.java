@@ -2,6 +2,7 @@ package com.mirkoabozzi.product_service.services;
 
 import com.mirkoabozzi.product_service.dto.ProductRequestDTO;
 import com.mirkoabozzi.product_service.entities.Product;
+import com.mirkoabozzi.product_service.exceptions.BadRequestException;
 import com.mirkoabozzi.product_service.exceptions.NotFoundExceptions;
 import com.mirkoabozzi.product_service.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,8 @@ public class ProductService {
 
     public void decreaseProductQuantity(UUID productId, int quantity) {
         Product productFound = this.findById(productId);
+        if (productFound.getQuantityAvailable() < quantity)
+            throw new BadRequestException("Product with id " + productId + " not available in the quantity requested");
         productFound.setQuantityAvailable(productFound.getQuantityAvailable() - quantity);
         this.productRepository.save(productFound);
     }
