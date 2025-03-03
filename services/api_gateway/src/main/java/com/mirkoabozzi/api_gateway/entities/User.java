@@ -1,8 +1,9 @@
 package com.mirkoabozzi.api_gateway.entities;
 
 import com.mirkoabozzi.api_gateway.enums.Role;
-import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,8 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-@Entity
-@Table(name = "users")
+@Document
 @Getter
 @Setter
 @AllArgsConstructor
@@ -25,7 +25,6 @@ public class User implements UserDetails {
     private String surname;
     private String email;
     private String password;
-    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Override
