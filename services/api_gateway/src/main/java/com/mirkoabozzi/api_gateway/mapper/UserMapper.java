@@ -1,6 +1,7 @@
 package com.mirkoabozzi.api_gateway.mapper;
 
 import com.mirkoabozzi.api_gateway.dto.UserRegisterDTO;
+import com.mirkoabozzi.api_gateway.dto.UserRespDTO;
 import com.mirkoabozzi.api_gateway.entities.User;
 import com.mirkoabozzi.api_gateway.enums.Role;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,15 @@ public class UserMapper {
                 .password(passwordEncoder.encode(body.password()))
                 .role(Role.USER)
                 .build();
+    }
+
+    public UserRespDTO userToDTO(User user) {
+        return new UserRespDTO(
+                user.getId(),
+                user.getName(),
+                user.getSurname(),
+                user.getEmail(),
+                user.getRole()
+        );
     }
 }
