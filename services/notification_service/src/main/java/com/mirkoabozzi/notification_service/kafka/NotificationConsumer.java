@@ -17,7 +17,7 @@ public class NotificationConsumer {
 
     @KafkaListener(topics = "order-topic")
     public void orderNotification(OrderConfirmation orderConfirmation) {
-        System.out.println("Message from order number " + orderConfirmation.orderId());
+        System.out.println("Consumer -> Message received from order service. Order number " + orderConfirmation.orderId());
 
         Notification notification = Notification.builder()
                 .notificationType(NotificationType.ORDER_CONFIRMATION)

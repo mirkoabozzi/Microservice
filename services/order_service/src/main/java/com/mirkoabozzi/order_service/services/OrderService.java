@@ -33,8 +33,8 @@ public class OrderService {
         } else {
             throw new NotFoundExceptions("Product unavailable");
         }
-        
-        this.orderProducer.sendOrderConfirmation(new OrderConfirmation(newOrder.getId()));
+
+        this.orderProducer.sendOrderConfirmation(new OrderConfirmation(newOrder.getId(), "Product quantity: " + body.quantity()));
 
         return newOrder;
     }

@@ -15,7 +15,7 @@ public class OrderProducer {
     private final KafkaTemplate<String, OrderConfirmation> kafkaTemplate;
 
     public void sendOrderConfirmation(OrderConfirmation orderConfirmation) {
-        System.out.println("Sending message...");
+        System.out.println("Sending message from producer...");
 
         Message<OrderConfirmation> message = MessageBuilder
                 .withPayload(orderConfirmation)
