@@ -1,7 +1,6 @@
-package com.mirkoabozzi.api_gateway.exceptions;
+package com.mirkoabozzi.user_service.exceptions;
 
-
-import com.mirkoabozzi.api_gateway.dto.ErrorDTO;
+import com.mirkoabozzi.user_service.dto.ErrorDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;

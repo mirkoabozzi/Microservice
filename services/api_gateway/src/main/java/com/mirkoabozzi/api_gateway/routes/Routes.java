@@ -16,6 +16,8 @@ public class Routes {
     private String productServiceUri;
     @Value("${order.service.uri}")
     private String orderServiceUri;
+    @Value("${user.service.uri}")
+    private String userServiceUri;
 
     @Bean
     public RouterFunction<ServerResponse> productServiceRoute() {
@@ -28,6 +30,20 @@ public class Routes {
     public RouterFunction<ServerResponse> orderServiceRoute() {
         return GatewayRouterFunctions.route("order_service")
                 .route(RequestPredicates.path("/api/orders/**"), HandlerFunctions.http(orderServiceUri))
+                .build();
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> userServiceAuthRoute() {
+        return GatewayRouterFunctions.route("user_service")
+                .route(RequestPredicates.path("/api/auth/**"), HandlerFunctions.http(userServiceUri))
+                .build();
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> userServiceRoute() {
+        return GatewayRouterFunctions.route("user_service")
+                .route(RequestPredicates.path("/api/users/**"), HandlerFunctions.http(userServiceUri))
                 .build();
     }
 }
