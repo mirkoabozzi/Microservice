@@ -1,5 +1,6 @@
 package com.mirkoabozzi.user_service.services;
 
+import com.mirkoabozzi.user_service.config.RabbitMqProperties;
 import com.mirkoabozzi.user_service.dto.UserRegisterDTO;
 import com.mirkoabozzi.user_service.dto.UserRespDTO;
 import com.mirkoabozzi.user_service.entities.User;
@@ -9,7 +10,6 @@ import com.mirkoabozzi.user_service.mapper.UserMapper;
 import com.mirkoabozzi.user_service.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,11 +22,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final RabbitTemplate rabbitTemplate;
-
-    @Value("${rabbitmq.exchange.name}")
-    private String exchange;
-    @Value("${rabbitmq.routing.key}")
-    private String routingKey;
+    private final RabbitMqProperties rabbitMqProperties;
 
     public User findById(UUID id) {
         return this.userRepository.findById(id).orElseThrow(() -> new NotFoundException("User with id " + id + " not found on DB"));
@@ -44,7 +40,7 @@ public class UserService {
         User savedUser = this.userRepository.save(newUser);
         UserRespDTO userRespDTO = this.userMapper.userToDTO(savedUser);
 
-        rabbitTemplate.convertAndSend(exchange, routingKey, userRespDTO);
+        rabbitTemplate.convertAndSend(rabbitMqProperties.getMailExchange(), rabbitMqProperties.getNewUserRoutingKey(), userRespDTO);
 
         return savedUser;
     }
