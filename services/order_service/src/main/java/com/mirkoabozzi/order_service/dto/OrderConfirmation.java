@@ -4,6 +4,6 @@ import java.util.UUID;
 
 public record OrderConfirmation(
         UUID orderId,
-        String msg
+        UserDTO user
 ) {
 }

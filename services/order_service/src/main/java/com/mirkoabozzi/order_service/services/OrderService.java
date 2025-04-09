@@ -1,8 +1,10 @@
 package com.mirkoabozzi.order_service.services;
 
 import com.mirkoabozzi.order_service.client.ProductClient;
+import com.mirkoabozzi.order_service.client.UserClient;
 import com.mirkoabozzi.order_service.dto.OrderConfirmation;
 import com.mirkoabozzi.order_service.dto.OrderDTO;
+import com.mirkoabozzi.order_service.dto.UserDTO;
 import com.mirkoabozzi.order_service.entities.Order;
 import com.mirkoabozzi.order_service.exceptions.NotFoundExceptions;
 import com.mirkoabozzi.order_service.kafka.OrderProducer;
@@ -20,10 +22,16 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final ProductClient productClient;
+    private final UserClient userClient;
 
     private final OrderProducer orderProducer;
 
     public Order saveOrder(OrderDTO body) {
+
+        UserDTO userFound = userClient.getUser(body.userId());
+
+        if (userFound == null)
+            throw new NotFoundExceptions("User with id " + body.userId() + " not found");
 
         Order newOrder = new Order(body.productId(), body.quantity());
 
@@ -34,7 +42,7 @@ public class OrderService {
             throw new NotFoundExceptions("Product unavailable");
         }
 
-        this.orderProducer.sendOrderConfirmation(new OrderConfirmation(newOrder.getId(), "Product quantity: " + body.quantity()));
+        this.orderProducer.sendOrderConfirmation(new OrderConfirmation(newOrder.getId(), userFound));
 
         return newOrder;
     }
