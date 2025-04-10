@@ -1,6 +1,5 @@
 package com.mirkoabozzi.user_service.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mirkoabozzi.user_service.enums.Role;
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -14,7 +13,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@JsonIgnoreProperties({"password"})
 public class User {
     @Id
     private UUID id;

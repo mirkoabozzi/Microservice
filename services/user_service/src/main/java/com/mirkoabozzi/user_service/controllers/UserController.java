@@ -1,6 +1,8 @@
 package com.mirkoabozzi.user_service.controllers;
 
+import com.mirkoabozzi.user_service.dto.UserRespDTO;
 import com.mirkoabozzi.user_service.entities.User;
+import com.mirkoabozzi.user_service.mapper.UserMapper;
 import com.mirkoabozzi.user_service.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,14 +19,17 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable UUID id) {
-        return this.userService.findById(id);
+    public UserRespDTO getUser(@PathVariable UUID id) {
+        User useFound = this.userService.findById(id);
+        return userMapper.userToDTO(useFound);
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
-        return this.userService.getAllUsers();
+    public List<UserRespDTO> getAllUsers() {
+        List<User> userList = this.userService.getAllUsers();
+        return userList.stream().map(userMapper::userToDTO).toList();
     }
 }
