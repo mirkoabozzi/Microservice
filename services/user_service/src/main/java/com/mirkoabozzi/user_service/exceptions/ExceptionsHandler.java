@@ -30,4 +30,9 @@ public class ExceptionsHandler {
         return new ErrorDTO(ex.getMessage(), LocalDateTime.now());
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDTO handleBadRequestException(BadRequestException ex) {
+        return new ErrorDTO(ex.getMessage(), LocalDateTime.now());
+    }
 }
